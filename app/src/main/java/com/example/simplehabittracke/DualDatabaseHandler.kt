@@ -208,6 +208,35 @@ class DualDatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE
         return item
     }
 
+    internal fun getJoinFast(date: LocalDate):Map<Int, Int> = getJoinFast(formatDate(date))
+
+    // not yet well dev
+    internal fun getJoinFast(date:String):Map<Int, Int> {
+        val list = mutableMapOf<Int, Int>()
+
+        try {
+            val db = this.writableDatabase
+
+            val selectQuery = "SELECT l.id, l.color FROM ${TABLES[0]} l INNER JOIN ${TABLES[1]} r ON l.id = r.habit_id WHERE r.checked=1 AND r.date = '$date'"
+            val cursor = db.rawQuery(selectQuery, null)
+
+            // looping through all rows and adding to list
+            if (cursor.moveToFirst()) {
+                do {
+
+                    list[cursor.getInt(0)] = cursor.getInt(1)
+                } while (cursor.moveToNext())
+            }
+
+            cursor.close()
+            db.close()
+        }  catch (e: Exception) {
+            // TODO: handle exception
+            Log.e("e_tag", "DualDatabaseHandler exception: $e")
+        }
+        return list
+    }
+
     // not yet well dev
     internal fun getJoin():MutableList<*> {
         val list = mutableListOf<Map<String, Int>>()

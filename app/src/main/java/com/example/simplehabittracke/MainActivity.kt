@@ -1,5 +1,7 @@
 package com.example.simplehabittracke
 
+import android.app.Activity
+import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -20,14 +22,13 @@ import com.kizitonwose.calendarview.model.DayOwner
 import com.kizitonwose.calendarview.ui.DayBinder
 import com.kizitonwose.calendarview.ui.MonthHeaderFooterBinder
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_add_habit.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.YearMonth
 import org.threeten.bp.temporal.WeekFields
 import java.util.*
 
 
-class MainActivity : AppCompatActivity(), AddHabitFragment.OnFragmentInteractionListener {
+class MainActivity : AppCompatActivity() {
     private lateinit var selectedDate: LocalDate
     private lateinit var today: LocalDate
 
@@ -104,17 +105,26 @@ class MainActivity : AppCompatActivity(), AddHabitFragment.OnFragmentInteraction
 
         val button: Button = findViewById(R.id.addNewHabitButton)
         button.setOnClickListener {
-            val fragment: AddHabitFragment = AddHabitFragment.newInstance("testing", "rubbish")
-            val fragmentTran: FragmentTransaction = this.supportFragmentManager.beginTransaction()
-            fragmentTran.add(R.id.fragment_container, fragment)
-            fragmentTran.addToBackStack(null)
-            fragmentTran.commit()
+//            val editText = findViewById<EditText>(R.id.editText)
+//            val message = editText.text.toString()
+            val intent = Intent(this, AddHabitActivity::class.java).apply {
+//                putExtra(EXTRA_MESSAGE, message)
+            }
+            startActivityForResult(intent, 1)
         }
 
     }
 
-    override fun onFragmentInteraction(uri: Uri) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.d("d_Tag","onActivityResult")
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                val strEditText = data!!.getStringExtra("editTextValue")
+                val colorText = data!!.getStringExtra("colorValue")
+                Log.d("d_Tag","got $strEditText and $colorText from AddHabitActivity")
+            }
+        }
     }
 
     private fun createBinder() {
@@ -165,7 +175,8 @@ class MainActivity : AppCompatActivity(), AddHabitFragment.OnFragmentInteraction
                     }
                 }
                 // habit check fill in color
-
+                val map = myDb.getJoinFast(day.date)
+                container.setViewList(map)
             }
         }
     }
@@ -201,6 +212,7 @@ class MainActivity : AppCompatActivity(), AddHabitFragment.OnFragmentInteraction
         adapter?.dataSetChanged(newlist)
         adapter?.notifyDataSetChanged()
     }
+
 
 //    fun createCalendarView() {
 //        val simpleCalendarView = findViewById(R.id.calendarView) as CalendarView // get the reference of CalendarView

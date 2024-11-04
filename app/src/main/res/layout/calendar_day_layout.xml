@@ -11,6 +11,7 @@
             android:textSize="16sp"
             android:layout_margin="4dp"
             tools:text="22"/>
+
     <View
             android:layout_width="match_parent"
             android:layout_height="5dp"
@@ -19,5 +20,9 @@
             android:layout_width="match_parent"
             android:layout_height="5dp"
             android:id="@+id/view2"/>
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:id="@+id/view3"/>
 
 </LinearLayout>
