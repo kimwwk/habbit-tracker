@@ -6,8 +6,18 @@
     <TextView
             android:id="@+id/calendarDayText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="16sp"
-            tools:text="22" />
+            android:layout_margin="4dp"
+            tools:text="22"/>
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:id="@+id/view" />
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:id="@+id/view2"/>
+
 </LinearLayout>

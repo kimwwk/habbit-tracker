@@ -7,24 +7,28 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-
     <LinearLayout
             android:orientation="vertical"
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
         <com.kizitonwose.calendarview.CalendarView
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
-                android:layout_height="398dp"
+                android:layout_height="360dp"
                 app:cv_scrollMode="paged"
                 app:cv_outDateStyle="endOfRow"
                 app:cv_dayViewResource="@layout/calendar_day_layout"
                 app:cv_monthHeaderResource="@layout/calendar_month_layout"/>
-        <Button
-                android:text="Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/button"/>
+
+        <include layout="@layout/recycler_view_layout"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="5dp"
+                 android:layout_marginBottom="5dp"/>
+
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
